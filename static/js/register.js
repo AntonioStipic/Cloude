@@ -1,7 +1,7 @@
 var app = angular.module("cloude");
 
 app.controller("RegisterController",
-function($rootScope, $scope, $http) {
+function($rootScope, $scope, $http, $window) {
 	this.username = "prazno";
 	this.password = "prazno";
 	var self = this;
@@ -17,10 +17,15 @@ function($rootScope, $scope, $http) {
 			data: data,
 			method: "POST",
 			url: "/register"
-		}).then(function successCallback(response){
-			console.log("Register response:", response);
-			$rootScope.registerSuccess = true;
-		}), function errorCallback(response){
+		}).then(function successCallback(response) {
+			if (response.data.error != 200) {
+				$window.location.href = "../views/error.html?error=" + response.data.error;
+			} else {
+				console.log("Register response:", response);
+				$rootScope.registerSuccess = true;
+				$window.location.href = "../views/login.html";
+			}
+		}), function errorCallback(response) {
 			console.log("REGISTER GRESKA");
 			$rootScope.registerSuccess = false;
 		}
