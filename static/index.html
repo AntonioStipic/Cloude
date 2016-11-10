@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cloude</title>
+
+	<script type="text/javascript" src="./js/angular.min.js"></script>
+	<script type="text/javascript" src="./js/app.js"></script>
+</head>
+<body ng-app="cloude">
+	<p>Paragraf!</p>
+	{{3+1}}
+	<div ng-controller="MainController as main">
+		<div ng-include="main.presentedView"></div>
+	</div>
+</body>
+</html>
