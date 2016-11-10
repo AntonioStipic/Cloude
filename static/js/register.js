@@ -23,7 +23,7 @@ function($rootScope, $scope, $http, $window) {
 			} else {
 				console.log("Register response:", response);
 				$rootScope.registerSuccess = true;
-				$window.location.href = "../views/login.html";
+				$window.location.href = "../../login";
 			}
 		}), function errorCallback(response) {
 			console.log("REGISTER GRESKA");

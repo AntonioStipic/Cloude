@@ -41,23 +41,19 @@ app.post("/register", function (request, response) {
 	var password = request.body.password;
 
 	if (username != undefined && password != undefined){
-		connection.connect(function(err) {
-			if (err){
-				console.log("Error connecting to database", err);
-			} else {
-				console.log("Successfully connected to database");
-			}
-		});
+
+		connectToDatabase();
 
 		var post  = {id: null, username: username, password: password};
 		var query = connection.query('INSERT INTO users SET ?', post, function(error, result) {
 			if (error) {
 				if (error.code == "ER_DUP_ENTRY") {
-					console.log("ER_DUP_ENTRY");
-					//response.redirect("./static/views/error.html");
+					console.log(error.code, "for user:", username);
 
 					response.send({ error: 409, username: username });
 					response.end();
+				}else{
+					console.log(error.code);
 				}
 			} else {
 				console.log("User successfully added to database!");
@@ -69,3 +65,18 @@ app.post("/register", function (request, response) {
 });
 
 ////////////* Register routes END *//////////////
+
+
+/**************** Functions *******************/
+
+function connectToDatabase(){
+	connection.connect(function(err) {
+		if (err){
+			console.log("Error connecting to database", err);
+		} else {
+			console.log("Successfully connected to database");
+		}
+	});
+}
+
+/**********************************************/
