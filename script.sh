@@ -2,5 +2,9 @@ npm install express --save
 npm install nodemon --save
 npm install mysql --save
 npm install body-parser --save
+npm install cookie-parser --save
+npm install connect-redis --save
+npm install crypto --save
+npm install express-session --save
 git config user.email "antonio.stipic2@gmail.com"
 git config user.name "Spaldin"
