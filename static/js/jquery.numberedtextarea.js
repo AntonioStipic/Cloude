@@ -70,12 +70,20 @@
         
         var lineNumbers = $('<div class="numberedtextarea-line-numbers"></div>').insertAfter(element);
         
-        element.css({
+        /* element.css({
             paddingLeft: 25 + lineNumbers.width() + 'px'
         }).on('input propertychange change keyup paste', function() {
             renderLineNumbers(element, settings);
         }).on('scroll', function() {
             scrollLineNumbers(element, settings);
+        }); */
+
+        element.css({
+            paddingLeft: 25 + lineNumbers.width() + 'px'
+        }).on('input propertychange change keyup paste', function() {
+            renderLineNumbers(element, settings);
+        }).bind('scroll', function() {
+            //scrollLineNumbers(element, settings);
         }); 
         
         lineNumbers.css({

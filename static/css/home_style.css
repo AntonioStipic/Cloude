@@ -11,7 +11,7 @@
 	position: fixed;
 	min-width: 50vw;
 	max-width: 50vw;
-	width: 80%;
+	width: 70%;
 }
 .container {
 	white-space: nowrap;
@@ -23,15 +23,14 @@
 	border-right: 1px solid #b94a48;
 }
 #textarea {
-	height: 70vh;
+	position: relative;
+	height: 72vh;
 	width: 70vw;
 	z-index: 1000;
 }
 #fileNameLabel {
 	margin-right: 20px;
 }
-.numberedtextarea-line-numbers {
+.codelines {
 	position: absolute;
-	z-index: 1001;
-	background-color: green;
 }
