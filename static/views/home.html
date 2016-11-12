@@ -3,17 +3,67 @@
 <head>
 	<title>Cloude - Home</title>
 
-	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../css/reset.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="../css/home_style.css">
 
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="../js/angular.min.js"></script>
 	<script type="text/javascript" src="../js/app.js"></script>
 	<script type="text/javascript" src="../js/home.js"></script>
 </head>
 <body>
 	<body ng-app="cloude">
-	<div ng-controller="HomeController as home">
-		<h3>Hello {{data.username}}!</h3>
-	</div>
-</body>
+		<div ng-controller="HomeController as home">
+			<!-- <h3>Hello {{data.username}}!</h3> -->
+
+			<div class="container" id="container">
+				<div class="row">
+					<div class="col-md-4">
+						<!-- It can be fixed with bootstrap affix http://getbootstrap.com/javascript/#affix-->
+						<div id="sidebar" class="well sidebar-nav">
+							<h4>Hello {{data.username}}!</h4><br>
+							<h5><i class="glyphicon glyphicon-user"></i>
+								<small><b>MANAGEMENT</b></small>
+							</h5>
+							<ul class="nav nav-pills nav-stacked">
+								<li class="active"><a href="/home">Home</a></li>
+								<li><a href="#">Add</a></li>
+								<li><a href="#">Search</a></li>
+							</ul>
+							<h5><i class="glyphicon glyphicon-file"></i>
+								<small><b>FILES</b></small>
+							</h5>
+							<ul class="nav nav-pills nav-stacked">
+								<li><a href="#">List</a></li>
+								<li><a href="/logout">Log out</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-8" id="b2">
+						
+
+
+
+
+
+
+
+
+
+
+
+
+					</div>
+				</div>
+				
+			</div>
+			<script type="text/javascript">
+				$("#b2").load("./views/assets/toolbar.html");
+
+
+			</script>
+		</div>
+	</body>
 </body>
 </html>
