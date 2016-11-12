@@ -34,8 +34,16 @@ app.get("/home", function (request, response) {
 	sess = request.session;
 	
 	if (sess.sessid){
-		response.send("User logged in with session: " + sess.sessid);
-	}else{
+		//response.send("User logged in with session: " + sess.sessid);
+		sessidExists(sess.sessid, function (error ,data) {
+			if (error) {
+				console.log("SESSID EXISTS ERROR : ",err);   
+			} else {
+				console.log("Session exists!");
+				response.sendFile(__dirname + "/static/views/home.html");
+			}
+		});
+	} else {
 		response.send("Not logged in!");
 	}
 });
@@ -47,13 +55,18 @@ app.get("/error", function (request, response) {
 ////////////* Login routes START *////////////
 
 app.get("/login", function (request, response) {
-	response.sendFile(__dirname + "/static/views/login.html");
+	if (request.session.sessid){
+		response.redirect("/home");
+	}else{
+		response.sendFile(__dirname + "/static/views/login.html");
+	}
 });
 
 app.post("/login", function (request, response) {
 	var username = request.body.username;
 	var password = request.body.password;
 	var sess = request.session;
+
 	if (username != undefined && password != undefined) {
 
 		/* if (userExists(username)){
@@ -63,7 +76,6 @@ app.post("/login", function (request, response) {
 		} else {
 			console.log("User doesn't exists!");
 		} */
-		var doesExist = 0;
 		userExists(username, function (error ,data) {
 			var returns = 0;
 			if (error) {
@@ -91,18 +103,17 @@ app.post("/login", function (request, response) {
 							console.log("Wrong password!");
 							response.send("/error?error=924");
 						}
-
 						//response.render("login.html");
 					});
 
 				} else {
-					response.sendFile(__dirname + "/static/views/error.html?error=956");
+					response.send("error?error=956");
 				}
 			}
 		});
 
 	} else {
-		response.sendFile(__dirname + "/static/views/error.html?error=925");
+		response.send("error?error=925");
 	}
 });
 
