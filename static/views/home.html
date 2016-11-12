@@ -59,9 +59,13 @@
 				
 			</div>
 			<script type="text/javascript">
-				$("#b2").load("./views/assets/toolbar.html");
-
-
+				$.get("./views/assets/toolbar.html", function (data) {
+					var toolbar = data;
+					$.get("./views/assets/textarea.html", function (data2) {
+						var textarea = data2;
+						$("#b2").html(toolbar + textarea);
+					});
+				});
 			</script>
 		</div>
 	</body>

@@ -11,9 +11,18 @@
 	position: fixed;
 	min-width: 50vw;
 	max-width: 50vw;
+	width: 80%;
 }
 .container {
 	white-space: nowrap;
 }
-
-
+.li_button_left{
+	border-left: 1px solid #b94a48;
+}
+.li_button_right{
+	border-right: 1px solid #b94a48;
+}
+#textarea {
+	height: 80vh;
+	width: 70vw;
+}
