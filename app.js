@@ -39,17 +39,21 @@ app.get("/home", function (request, response) {
 			if (error) {
 				console.log("SESSID EXISTS ERROR : ",err);   
 			} else {
-				console.log("Session exists!");
 				response.sendFile(__dirname + "/static/views/home.html");
 			}
 		});
 	} else {
-		response.send("Not logged in!");
+		response.redirect("/login");
 	}
 });
 
 app.get("/error", function (request, response) {
 	response.send("ERROR");
+});
+
+app.get("/logout", function (request, response) {
+	request.session.destroy();
+	response.redirect("/");
 });
 
 ////////////* Login routes START *////////////
@@ -123,7 +127,11 @@ app.post("/login", function (request, response) {
 ////////////* Register routes START *////////////
 
 app.get("/register", function (request, response) {
-	response.sendFile(__dirname + "/static/views/register.html");
+	if (request.session.sessid){
+		response.redirect("/home");
+	}else{
+		response.sendFile(__dirname + "/static/views/register.html");
+	}
 });
 
 app.post("/register", function (request, response) {

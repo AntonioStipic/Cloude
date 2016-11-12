@@ -1,9 +1,7 @@
 var app = angular.module("cloude");
 
-app.controller("MainController", function ($scope) {
+app.controller("MainController", function ($scope, $window) {
 	var self = this;
 
-	/* this.toggleView = function toggleView (view) {
-
-	} */
+	$window.location.href = "/login";
 });
