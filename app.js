@@ -58,6 +58,16 @@ app.get("/logout", function (request, response) {
 	response.redirect("/");
 });
 
+app.post("/authHome", function (request, response) {
+	var data = request.body.data;
+
+	if (data == "home"){
+		var sess = request.session;
+		var responseData = {username: sess.username, sessid: sess.sessid};
+		response.send(responseData);
+	}
+});
+
 ////////////* Login routes START *////////////
 
 app.get("/login", function (request, response) {
