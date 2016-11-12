@@ -30,15 +30,18 @@ app.listen(8080, function () {
 	console.log("Listening on port 8080");
 });
 
-app.get("/test", function (request, response) {
+app.get("/home", function (request, response) {
 	sess = request.session;
-	response.send("It works!");
 	
 	if (sess.sessid){
-		console.log("User logged in with session:", sess.sessid);
+		response.send("User logged in with session: " + sess.sessid);
 	}else{
-		console.log("Not logged in!");
+		response.send("Not logged in!");
 	}
+});
+
+app.get("/error", function (request, response) {
+	response.send("ERROR");
 });
 
 ////////////* Login routes START *////////////
@@ -80,13 +83,16 @@ app.post("/login", function (request, response) {
 						var db_sessid = result[0].sessid;
 
 						if (db_username == username && db_password == password){
-							console.log("User successfully logged in!");
+							console.log("User: '" + username + "' successfully logged in!");
 							request.session.sessid = db_sessid;
+							request.session.username = db_username;
+							response.send("/home");
 						}else{
 							console.log("Wrong password!");
+							response.send("/error?error=924");
 						}
 
-						response.render("login.html");
+						//response.render("login.html");
 					});
 
 				} else {
@@ -125,7 +131,7 @@ app.post("/register", function (request, response) {
 				if (error.code == "ER_DUP_ENTRY") {
 					console.log(error.code, "for user:", username);
 
-					response.send({ error: 409, username: username });
+					response.send("/error?error=409");
 					response.end();
 				}else{
 					console.log(error.code);
@@ -137,7 +143,8 @@ app.post("/register", function (request, response) {
 			}
 		});
 	} else {
-		response.sendFile(__dirname + "/static/views/error.html?error=925");
+		//response.sendFile(__dirname + "/static/views/error.html?error=925");
+		response.send("/error?error=925");
 	}
 });
 
@@ -157,7 +164,6 @@ function connectToDatabase () {
 }
 
 function userExists (username, callback) {
-	var returns;
 	var query = connection.query("SELECT username FROM users WHERE username='" + username + "';", function (error, result) {
 		var str = JSON.stringify(result);
 		result = JSON.parse(str);
@@ -173,14 +179,25 @@ function userExists (username, callback) {
 	});
 }
 
+function sessidExists (sessid, callback) {
+	var query = connection.query("SELECT sessid FROM users WHERE sessid='" + sessid + "';", function (error, result) {
+		var str = JSON.stringify(result);
+		result = JSON.parse(str);
+		if (result[0]) {
+			if (result[0].sessid == sessid) {
+				callback(null,result[0].sessid);
+			} else {
+				callback(null,null);
+			}
+		} else {
+			callback(null,null);
+		}
+	});
+}
+
 function randomValueHex (len) {
-return crypto.randomBytes(Math.ceil(len/2))
-.toString('hex') // convert to hexadecimal format
-.slice(0,len);   // return required number of characters
+	return crypto.randomBytes(Math.ceil(len/2))
+	.toString('hex') // convert to hexadecimal format
+	.slice(0,len);   // return required number of characters
 }
-
-function sessionHandler(request, response, next) {
-	sessionMiddleware(request, response, next);
-}
-
 /**********************************************/

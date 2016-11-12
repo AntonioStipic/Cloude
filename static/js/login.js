@@ -1,8 +1,8 @@
 var app = angular.module("cloude");
 
 app.controller("LoginController",
-function($rootScope, $scope, $http) {
-	this.username ="prazno";
+function($rootScope, $scope, $http, $window) {
+	this.username = "prazno";
 	this.password = "prazno";
 	var self = this;
 	$rootScope.loginSuccess = false;
@@ -20,7 +20,7 @@ function($rootScope, $scope, $http) {
 		}).then(function successCallback(response){
 			console.log("Login response:", response);
 			$rootScope.loginSuccess = true;
-			$rootScope.token = response.data.token;
+			$window.location.href = response.data;
 		}), function errorCallback(response){
 			console.log("LOGIN GRESKA");
 			$rootScope.registerSuccess = false;

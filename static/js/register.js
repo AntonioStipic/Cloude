@@ -19,7 +19,7 @@ function($rootScope, $scope, $http, $window) {
 			url: "/register"
 		}).then(function successCallback(response) {
 			if (response.data.error != 200) {
-				$window.location.href = "../views/error.html?error=" + response.data.error;
+				$window.location.href = response.data;
 			} else {
 				console.log("Register response:", response);
 				$rootScope.registerSuccess = true;

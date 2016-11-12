@@ -1,3 +1,4 @@
 409 - User already registered
 925 - Username and/or password hasn't been entered
 956 - User does not exist!
+924 - Wrong password!
