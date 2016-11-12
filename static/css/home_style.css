@@ -23,6 +23,15 @@
 	border-right: 1px solid #b94a48;
 }
 #textarea {
-	height: 80vh;
+	height: 70vh;
 	width: 70vw;
+	z-index: 1000;
+}
+#fileNameLabel {
+	margin-right: 20px;
+}
+.numberedtextarea-line-numbers {
+	position: absolute;
+	z-index: 1001;
+	background-color: green;
 }

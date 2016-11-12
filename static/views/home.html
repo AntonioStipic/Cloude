@@ -29,32 +29,18 @@
 							<ul class="nav nav-pills nav-stacked">
 								<li class="active"><a href="/home">Home</a></li>
 								<li><a href="#">Add</a></li>
-								<li><a href="#">Search</a></li>
+								<li><a href="#">Preferences</a></li>
+								<li><a href="/logout">Log out</a></li>
 							</ul>
 							<h5><i class="glyphicon glyphicon-file"></i>
 								<small><b>FILES</b></small>
 							</h5>
 							<ul class="nav nav-pills nav-stacked">
 								<li><a href="#">List</a></li>
-								<li><a href="/logout">Log out</a></li>
 							</ul>
 						</div>
 					</div>
-					<div class="col-md-8" id="b2">
-						
-
-
-
-
-
-
-
-
-
-
-
-
-					</div>
+					<div class="col-md-8" id="b2"></div>
 				</div>
 				
 			</div>
@@ -64,9 +50,42 @@
 					$.get("./views/assets/textarea.html", function (data2) {
 						var textarea = data2;
 						$("#b2").html(toolbar + textarea);
+						document.getElementById("fileName").style.display = "none";
+						document.getElementById("fileNameLabel").style.display = "none";
+						document.getElementById("fileNameBr1").style.display = "none";
+						document.getElementById("fileNameBr2").style.display = "none";
+
+						$("#textarea").numberedtextarea();
+						changeHappened();
 					});
 				});
+
+				/**************** Functions *******************/
+
+				function newFile() {
+					$("#textarea").html("");
+					$("#textarea").removeAttr("disabled");
+					document.getElementById("fileName").style.display = "inline";
+					document.getElementById("fileNameLabel").style.display = "inline";
+					document.getElementById("fileNameBr1").style.display = "inline";
+					document.getElementById("fileNameBr2").style.display = "inline";
+
+					changeHappened();
+				}
+
+				function changeHappened() {
+					var position = $("#textarea").position();
+					$(".numberedtextarea-line-numbers").css({"top":position.top + "px"});
+
+					var height = $("#myElement").height();
+					$(".numberedtextarea-line-numbers").css('overflowY', height); 
+				}
+
+
+
+				/**********************************************/
 			</script>
+			<script type="text/javascript" src="../js/jquery.numberedtextarea.js"></script>
 		</div>
 	</body>
 </body>
