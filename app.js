@@ -52,7 +52,9 @@ app.get("/error", function (request, response) {
 });
 
 app.get("/logout", function (request, response) {
+	var username = request.session.username;
 	request.session.destroy();
+	console.log("User: '" + username + "' successfully logged out!");
 	response.redirect("/");
 });
 
