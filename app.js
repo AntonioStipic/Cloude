@@ -7,7 +7,7 @@ var session = require('express-session');
 
 var app = express();
 
-app.use(session({
+app.use(session ({
 	secret: "secret",
 	resave: true,
     saveUninitialized: true
@@ -19,7 +19,7 @@ app.engine('html', require('ejs').renderFile);
 app.use(express.static(__dirname + "/static"));
 app.set('views', __dirname + '/static/views');
 
-var connection = mysql.createConnection({
+var connection = mysql.createConnection ({
 	host: "localhost",
 	user: "root",
 	password: "",
@@ -183,6 +183,9 @@ app.post("/register", function (request, response) {
 
 ////////////* Register routes END *//////////////
 
+app.get('*', function (request, response) {
+  response.status(404).sendFile(__dirname + "/static/views/404.html");
+});
 
 /**************** Functions *******************/
 
