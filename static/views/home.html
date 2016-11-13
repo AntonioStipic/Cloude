@@ -72,7 +72,7 @@
 						function() {
 							username = document.getElementById("usernameValueDiv").innerHTML;
 							sessid = document.getElementById("sessidValueDiv").innerHTML;
-							var crypted = $.md5(username, sessid);
+							var crypted = $.md5(username);
 							document.getElementById("aSaveFile").href = "javascript:saveFile('" + sessid + "', '" + crypted + "');";
 						}, 2000);
 				}

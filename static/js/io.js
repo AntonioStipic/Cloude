@@ -13,5 +13,14 @@ function newFile () {
 function saveFile (sessid, crypted, file_name) { // crypted = md5(username, sessid);
 	file_name = document.getElementById("fileName").value;
 	var textareaValue = encodeURIComponent(document.getElementById("textarea").value);
-	
+
+	var data = {sessid: sessid, crypted: crypted, fileName: file_name, value: textareaValue};
+
+	$.ajax({
+		type: "POST",
+		url: "/api/saveFile",
+		data: data,
+		success: "true",
+		dataType: "binary"
+	});
 }

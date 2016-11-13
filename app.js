@@ -3,7 +3,7 @@ var bodyParser = require("body-parser");
 var mysql = require("mysql");
 var cookieParser = require("cookie-parser");
 var crypto = require("crypto");
-var session = require('express-session');
+var session = require("express-session");
 
 var app = express();
 
@@ -189,14 +189,35 @@ app.post("/register", function (request, response) {
 var router = express.Router();
 
 router.use(function (request, response, next) {
+	var sess = request.session;
+	var username = sess.username;
+	var sessid = sess.sessid;
 
-
-	next();
+	var data_crypted = request.body.crypted;
+	var hash = crypto.createHash('md5').update(username).digest('hex');
+	if (hash == data_crypted) {
+		next();
+	} else {
+		response.status(401).json({error: "Authorization"});
+	}
 });
 
-router.get("/saveFile", function (request, response) {
-	console.log("Hello World!");
-	response.send("Hello World!");
+router.post("/saveFile", function (request, response) {
+	var sessid = request.body.sessid;
+	var fileNames = request.body.fileName;
+	var value = request.body.value;
+
+	var username = request.session.username;
+
+	var fileName = fileNames.substring(0, fileNames.indexOf("."));
+	var fileExtension = fileNames.substr(fileNames.indexOf(".") + 1);
+
+	// INSERT INTO table (id, name, age) VALUES(1, "A", 19) ON DUPLICATE KEY UPDATE name="A", age=19
+
+	var query = connection.query("INSERT INTO files (id, value, name, extension, owner, salt) VALUES (null, '" + value + "', '" + fileName + "', '" + fileExtension + "', '" + username + "', '" + sessid + "') ON DUPLICATE KEY UPDATE value='" + value + "'", function(error, result) {
+		console.log(result);
+	});
+
 });
 
 app.use("/api", router);
