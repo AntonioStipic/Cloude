@@ -183,6 +183,26 @@ app.post("/register", function (request, response) {
 
 ////////////* Register routes END *//////////////
 
+
+////////////* Secure routes START *////////////
+
+var router = express.Router();
+
+router.use(function (request, response, next) {
+
+
+	next();
+});
+
+router.get("/saveFile", function (request, response) {
+	console.log("Hello World!");
+	response.send("Hello World!");
+});
+
+app.use("/api", router);
+
+////////////* Secure routes END *//////////////
+
 app.get('*', function (request, response) {
   response.status(404).sendFile(__dirname + "/static/views/404.html");
 });

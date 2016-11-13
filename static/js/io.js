@@ -8,18 +8,10 @@ function newFile () {
 
 	
 	$("#home").removeAttr("class", "active");
-
-	changeHappened();
 }
 
-function saveFile (username) {
-	console.log(username);
-}
-
-function changeHappened () {
-	/* var position = $("#textarea").position();
-	$(".numberedtextarea-line-numbers").css({"top":position.top + "px"});
-
-	var height = $("#myElement").height();
-	$(".numberedtextarea-line-numbers").css('overflowY', height);  */
+function saveFile (sessid, crypted, file_name) { // crypted = md5(username, sessid);
+	file_name = document.getElementById("fileName").value;
+	var textareaValue = encodeURIComponent(document.getElementById("textarea").value);
+	
 }
