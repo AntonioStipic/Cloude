@@ -10,7 +10,7 @@ var app = express();
 app.use(session ({
 	secret: "secret",
 	resave: true,
-    saveUninitialized: true
+	saveUninitialized: true
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -212,11 +212,30 @@ router.post("/saveFile", function (request, response) {
 	var fileName = fileNames.substring(0, fileNames.indexOf("."));
 	var fileExtension = fileNames.substr(fileNames.indexOf(".") + 1);
 
-	// INSERT INTO table (id, name, age) VALUES(1, "A", 19) ON DUPLICATE KEY UPDATE name="A", age=19
+	var long_hash = crypto.createHash('md5').update(fileName + fileExtension + username).digest('hex');
 
-	var query = connection.query("INSERT INTO files (id, value, name, extension, owner, salt) VALUES (null, '" + value + "', '" + fileName + "', '" + fileExtension + "', '" + username + "', '" + sessid + "') ON DUPLICATE KEY UPDATE value='" + value + "'", function(error, result) {
-		console.log(result);
+	longHashExists(long_hash, username, function (error, data) {
+		var exists = 0;
+		console.log(1);
+		for (var i = 0; i < data.length; i++){
+			if (long_hash == data[i]["unique_id"]){
+				exists = 1;
+			}
+		}
+
+		if (exists == 0){
+			var query = connection.query("INSERT INTO files (id, value, name, extension, owner, salt, unique_id) VALUES (null, '" + value + "', '" + fileName + "', '" + fileExtension + "', '" + username + "', '" + sessid + "', '" + long_hash + "')", function(error, result) {
+				console.log("Insert: " + result);
+			});
+		}else{
+			var query = connection.query("UPDATE files SET value='" + value + "' WHERE unique_id='" + long_hash + "';", function(error, result) {
+				console.log("Update: " + result);
+			});
+		}
 	});
+
+
+	// INSERT INTO table (id, name, age) VALUES(1, "A", 19) ON DUPLICATE KEY UPDATE name="A", age=19
 
 });
 
@@ -225,7 +244,7 @@ app.use("/api", router);
 ////////////* Secure routes END *//////////////
 
 app.get('*', function (request, response) {
-  response.status(404).sendFile(__dirname + "/static/views/404.html");
+	response.status(404).sendFile(__dirname + "/static/views/404.html");
 });
 
 /**************** Functions *******************/
@@ -266,6 +285,18 @@ function sessidExists (sessid, callback) {
 			} else {
 				callback(null,null);
 			}
+		} else {
+			callback(null,null);
+		}
+	});
+}
+
+function longHashExists (long_hash, username, callback) {
+	var query = connection.query("SELECT unique_id FROM files WHERE owner='" + username + "';", function (error, result) {
+		var str = JSON.stringify(result);
+		result = JSON.parse(str);
+		if (result) {
+			callback(null, result);
 		} else {
 			callback(null,null);
 		}
