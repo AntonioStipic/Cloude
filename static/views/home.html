@@ -12,24 +12,26 @@
 	<script type="text/javascript" src="../js/angular.min.js"></script>
 	<script type="text/javascript" src="../js/app.js"></script>
 	<script type="text/javascript" src="../js/home.js"></script>
+	<script type="text/javascript" src="../js/io.js"></script>
 	<script type="text/javascript" src="../js/lines.js"></script>
 </head>
 <body>
 	<body ng-app="cloude">
-		<div ng-controller="HomeController as home">
+		<div ng-controller="HomeController as home" id="ng-controller">
 			<!-- <h3>Hello {{data.username}}!</h3> -->
 
+			<div id="usernameValueDiv" style="display: none;">{{data.username}}</div>
 			<div class="container" id="container">
 				<div class="row">
 					<div class="col-md-4">
 						<!-- It can be fixed with bootstrap affix http://getbootstrap.com/javascript/#affix-->
 						<div id="sidebar" class="well sidebar-nav">
-							<h4>Hello {{data.username}}!</h4><br>
+							<h4>Hello, {{data.username}}!</h4><br>
 							<h5><i class="glyphicon glyphicon-user"></i>
 								<small><b>MANAGEMENT</b></small>
 							</h5>
 							<ul class="nav nav-pills nav-stacked">
-								<li class="active"><a href="/home">Home</a></li>
+								<li class="active" id="home"><a href="/home">Home</a></li>
 								<li><a href="#">Add</a></li>
 								<li><a href="#">Preferences</a></li>
 								<li><a href="/logout">Log out</a></li>
@@ -47,6 +49,7 @@
 				
 			</div>
 			<script type="text/javascript">
+				var username = null;
 				$.get("./views/assets/toolbar.html", function (data) {
 					var toolbar = data;
 					$.get("./views/assets/textarea.html", function (data2) {
@@ -58,36 +61,18 @@
 						document.getElementById("fileNameBr2").style.display = "none";
 
 						$("#textarea").linedtextarea();
-						changeHappened();
-					
+						
 					});
 				});
 
-				/**************** Functions *******************/
-
-				function newFile() {
-					$("#textarea").html("");
-					$("#textarea").removeAttr("disabled");
-					document.getElementById("fileName").style.display = "inline";
-					document.getElementById("fileNameLabel").style.display = "inline";
-					document.getElementById("fileNameBr1").style.display = "inline";
-					document.getElementById("fileNameBr2").style.display = "inline";
-
-					changeHappened();
+				window.onload = function () {
+					setTimeout(
+					function() {
+						username = document.getElementById("usernameValueDiv").innerHTML;
+						document.getElementById("aSaveFile").href = "javascript:saveFile('" + username + "');";
+					}, 2000);
 				}
-
-				function changeHappened() {
-					/* var position = $("#textarea").position();
-					$(".numberedtextarea-line-numbers").css({"top":position.top + "px"});
-
-					var height = $("#myElement").height();
-					$(".numberedtextarea-line-numbers").css('overflowY', height);  */
-				}
-
-
-				/**********************************************/
 			</script>
-			<script type="text/javascript" src="../js/jquery.numberedtextarea.js"></script>
 		</div>
 	</body>
 </body>
