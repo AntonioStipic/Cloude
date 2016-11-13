@@ -47,6 +47,23 @@ app.get("/home", function (request, response) {
 	}
 });
 
+app.get("/list", function (request, response) {
+	sess = request.session;
+	
+	if (sess.sessid){
+		//response.send("User logged in with session: " + sess.sessid);
+		sessidExists(sess.sessid, function (error ,data) {
+			if (error) {
+				console.log("SESSID EXISTS ERROR : ",err);   
+			} else {
+				response.sendFile(__dirname + "/static/views/list.html");
+			}
+		});
+	} else {
+		response.redirect("/login");
+	}
+});
+
 app.get("/error", function (request, response) {
 	response.send("ERROR");
 });
