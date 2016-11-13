@@ -116,19 +116,21 @@ app.post("/login", function (request, response) {
 							request.session.username = db_username;
 							response.send("/home");
 						}else{
-							console.log("Wrong password!");
+							console.log("User: '" + username + "' entered wrong password!");
 							response.send("/error?error=924");
 						}
 						//response.render("login.html");
 					});
 
 				} else {
+					console.log("Entered user: '" + username + "' does not exist!");
 					response.send("error?error=956");
 				}
 			}
 		});
 
 	} else {
+		console.log("Username: '" + username + "', password: '" + password + "', one of them is undefined");
 		response.send("error?error=925");
 	}
 });
