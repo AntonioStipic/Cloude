@@ -1,7 +1,9 @@
 function newFile () {
 	$("#textarea").html("");
 	$("#textarea").removeAttr("disabled");
+	document.getElementById("textarea").value = "";
 	document.getElementById("fileName").style.display = "inline";
+	document.getElementById("fileName").value = "";
 	document.getElementById("fileNameLabel").style.display = "inline";
 	document.getElementById("fileNameBr1").style.display = "inline";
 	document.getElementById("fileNameBr2").style.display = "inline";
@@ -10,7 +12,7 @@ function newFile () {
 	$("#home").removeAttr("class", "active");
 }
 
-function saveFile (sessid, crypted, file_name) { // crypted = md5(username, sessid);
+function saveFile (sessid, crypted, file_name) { // crypted = md5(username);
 	file_name = document.getElementById("fileName").value;
 	var textareaValue = encodeURIComponent(document.getElementById("textarea").value);
 
@@ -23,4 +25,8 @@ function saveFile (sessid, crypted, file_name) { // crypted = md5(username, sess
 		success: "true",
 		dataType: "binary"
 	});
+}
+
+function openFile (unique_id) {
+	console.log(unique_id);
 }

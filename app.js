@@ -231,7 +231,7 @@ router.post("/saveFile", function (request, response) {
 
 	var long_hash = crypto.createHash('md5').update(fileName + fileExtension + username).digest('hex');
 
-	longHashExists(long_hash, username, function (error, data) {
+	longHashExists(username, function (error, data) {
 		var exists = 0;
 		console.log(1);
 		for (var i = 0; i < data.length; i++){
@@ -256,11 +256,21 @@ router.post("/saveFile", function (request, response) {
 
 });
 
+router.post("/list", function (request, response) {
+	var username = request.session.username;
+
+	returnFiles(username, function (error, data) {
+		response.setHeader('Content-Type', 'application/json');
+		response.send(JSON.stringify(data));
+	});
+
+});
+
 app.use("/api", router);
 
 ////////////* Secure routes END *//////////////
 
-app.get('*', function (request, response) {
+app.get("*", function (request, response) {
 	response.status(404).sendFile(__dirname + "/static/views/404.html");
 });
 
@@ -308,8 +318,20 @@ function sessidExists (sessid, callback) {
 	});
 }
 
-function longHashExists (long_hash, username, callback) {
+function longHashExists (username, callback) {
 	var query = connection.query("SELECT unique_id FROM files WHERE owner='" + username + "';", function (error, result) {
+		var str = JSON.stringify(result);
+		result = JSON.parse(str);
+		if (result) {
+			callback(null, result);
+		} else {
+			callback(null,null);
+		}
+	});
+}
+
+function returnFiles (username, callback) {
+	var query = connection.query("SELECT name, extension, unique_id FROM files WHERE owner='" + username + "';", function (error, result) {
 		var str = JSON.stringify(result);
 		result = JSON.parse(str);
 		if (result) {
