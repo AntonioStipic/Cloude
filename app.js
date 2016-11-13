@@ -266,6 +266,17 @@ router.post("/list", function (request, response) {
 
 });
 
+router.post("/file", function (request, response) {
+	//var unique_id = request.session.username;
+	var unique_id = request.body["unique_id"];
+
+	returnFile(unique_id, function (error, data) {
+		response.setHeader('Content-Type', 'application/json');
+		response.send(JSON.stringify(data));
+	});
+
+});
+
 app.use("/api", router);
 
 ////////////* Secure routes END *//////////////
@@ -331,7 +342,19 @@ function longHashExists (username, callback) {
 }
 
 function returnFiles (username, callback) {
-	var query = connection.query("SELECT name, extension, unique_id FROM files WHERE owner='" + username + "';", function (error, result) {
+	var query = connection.query("SELECT * FROM files WHERE owner='" + username + "';", function (error, result) {
+		var str = JSON.stringify(result);
+		result = JSON.parse(str);
+		if (result) {
+			callback(null, result);
+		} else {
+			callback(null,null);
+		}
+	});
+}
+
+function returnFile (unique_id, callback) {
+	var query = connection.query("SELECT * FROM files WHERE unique_id='" + unique_id + "';", function (error, result) {
 		var str = JSON.stringify(result);
 		result = JSON.parse(str);
 		if (result) {
