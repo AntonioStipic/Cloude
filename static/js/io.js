@@ -1,4 +1,4 @@
-function newFile () {
+function newFile (boolean) {
 	$("#textarea").html("");
 	$("#textarea").removeAttr("disabled");
 	document.getElementById("textarea").value = "";
@@ -7,9 +7,12 @@ function newFile () {
 	document.getElementById("fileNameLabel").style.display = "inline";
 	document.getElementById("fileNameBr1").style.display = "inline";
 	document.getElementById("fileNameBr2").style.display = "inline";
-
 	
 	$("#home").removeAttr("class", "active");
+
+	if (boolean == "true") {
+		history.replaceState("object or string", "title", "/home");
+	}
 }
 
 function saveFile (sessid, crypted, file_name) { // crypted = md5(username);
