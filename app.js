@@ -232,6 +232,7 @@ router.post("/saveFile", function (request, response) {
 	var long_hash = crypto.createHash('md5').update(fileName + fileExtension + username).digest('hex');
 
 	longHashExists(username, function (error, data) {
+		console.log("error:", error, "data:", data);
 		var exists = 0;
 		console.log(1);
 		for (var i = 0; i < data.length; i++){
@@ -242,10 +243,16 @@ router.post("/saveFile", function (request, response) {
 
 		if (exists == 0){
 			var query = connection.query("INSERT INTO files (id, value, name, extension, owner, salt, unique_id) VALUES (null, '" + value + "', '" + fileName + "', '" + fileExtension + "', '" + username + "', '" + sessid + "', '" + long_hash + "')", function(error, result) {
+				if (error){
+					console.log("Insert error:", error);
+				}
 				console.log("Insert: " + result);
 			});
 		}else{
 			var query = connection.query("UPDATE files SET value='" + value + "' WHERE unique_id='" + long_hash + "';", function(error, result) {
+				if (error){
+					console.log("Update error:", error);
+				}
 				console.log("Update: " + result);
 			});
 		}
