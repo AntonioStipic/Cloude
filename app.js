@@ -247,6 +247,7 @@ router.post("/saveFile", function (request, response) {
 					console.log("Insert error:", error);
 				}
 				console.log("Insert: " + result);
+				response.status(200).send(long_hash);
 			});
 		}else{
 			var query = connection.query("UPDATE files SET value='" + value + "' WHERE unique_id='" + long_hash + "';", function(error, result) {
@@ -254,6 +255,7 @@ router.post("/saveFile", function (request, response) {
 					console.log("Update error:", error);
 				}
 				console.log("Update: " + result);
+				response.status(201).send(long_hash);
 			});
 		}
 	});

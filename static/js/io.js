@@ -30,8 +30,11 @@ function saveFile (sessid, crypted, file_name) { // crypted = md5(username);
 		type: "POST",
 		url: "/api/saveFile",
 		data: data,
-		success: "true",
-		dataType: "binary"
+		dataType: "binary",
+		error: function (data) {
+			console.log("ERROR", data);
+			window.location.href = "/home?file=" + data["responseText"];
+		}
 	});
 }
 

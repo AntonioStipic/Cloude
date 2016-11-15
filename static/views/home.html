@@ -77,7 +77,6 @@
 							document.getElementById("aSaveFile").href = "javascript:saveFile('" + sessid + "', '" + crypted + "');";
 							
 							var file = getUrlParameter("file");
-							console.log(file);
 							if (file != undefined) {
 								var data = {sessid: sessid, username: username, crypted: crypted, unique_id: file};
 								$.ajax({
