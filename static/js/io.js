@@ -17,6 +17,11 @@ function newFile (boolean) {
 
 function saveFile (sessid, crypted, file_name) { // crypted = md5(username);
 	file_name = document.getElementById("fileName").value;
+
+	if (file_name == "" || file_name == undefined) {
+		window.location.href = "/error?error=313";
+	}
+
 	var textareaValue = encodeURIComponent(document.getElementById("textarea").value);
 	textareaValue = textareaValue.replace("'", "\\'")
 	var data = {sessid: sessid, crypted: crypted, fileName: file_name, value: textareaValue};

@@ -26,6 +26,9 @@
 .codelines {
 	position: absolute;
 }
+.lines {
+	background-color: #f5f5f5;
+}
 .btn-info {
 	border-radius: 50px;
 	margin-left: 5px;
