@@ -18,7 +18,7 @@ function newFile (boolean) {
 function saveFile (sessid, crypted, file_name) { // crypted = md5(username);
 	file_name = document.getElementById("fileName").value;
 
-	if (file_name == "" || file_name == "." || file_name.search("\\" > -1) || file_name.search("'") > -1 || file_name.search('"') > -1) {
+	if (file_name == "" || file_name == ".") {
 		window.location.href = "/error?error=313";
 	}
 
